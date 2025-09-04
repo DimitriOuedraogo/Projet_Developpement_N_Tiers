@@ -1,0 +1,45 @@
+   <form>
+                   <div class="input-group">
+                    <input type="text" class="input">
+                    <label  class="placeholder">placeholder</label>
+                   </div>
+
+                   <div class="input-group">
+                    <input type="text" class="input">
+                    <label  class="placeholder">Nom</label>
+                   </div>
+  
+                    <button class="btn btn-outline-light btn-lg px-5" type="submit">Se Connecter</button>
+                  </form>
+
+^^^^^^^^CSS
+
+.input-group{
+    position: relative;
+   }
+
+   .input{
+    padding: 10px;
+    width: 100%;
+    max-width: 300px;
+    box-sizing: border-box;
+    outline: none;
+    
+   }
+
+   .placeholder{
+    position: absolute;
+    top: 10px;
+    left: 8px;
+    font-size: 14px;
+    padding: 0px 5px;
+    color: #666;
+    transition: 0.3s;
+    pointer-events: none;
+   }
+
+   .input:focus + .placeholder{
+    top: -10px;
+    color: #0000;
+    background-color: #fff;
+   }

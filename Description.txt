@@ -1,0 +1,18 @@
+  Projet de Developpement D'applications Web de gestion de Contact
+Les informations de base : Le nom , Le Prenom ,Email, , Le Numero De Telephone , age, Le sexe
+	
+Premiere Page de L'application:
+La page de Connection(Elle Comporte un formulaire avec des champs comme : Email et Mot de Passe et un bouton de Connexion et un bouton Pas de Compte?)
+Si l'utilisateur n'a pas de compte alors ,il clique sur le bouton Pas de Compte , ce qui va lui conduire a la deuxieme page. 
+
+Deuxieme Page de L'appliaction:
+ La page de Creation de Compte(Elle Comporte un formulaire avec des champs comme : Nom, Prenom ,Email et Mot de passe  )
+Sinon il passe a la Troisieme page.
+
+Troisieme Page de L'application: 
+la page de Creation , modification et de supression de contact(Sur cette page sera afficher la liste des contacts existant, ainsi que des boutons comme modifier,supprimer et ajouter un contact, on y ajoutera en supplementaire une barre de recherche en fonction du nom&Prenom et du numero de telephone)
+Affichage des Contacts)
+Fonctionnalités de recherche et de filtrage :
+ Capacité à rechercher des contacts par nom, email, numéro de téléphone, etc.
+
+

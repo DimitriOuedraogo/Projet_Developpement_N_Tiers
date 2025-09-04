@@ -1,0 +1,217 @@
+
+ <body class="vh-150 gradient-custom"  >
+   <section > 
+
+    <!--  En tete Affichage GestionApp -->
+    <header >
+      <h1>Gestion de Contacts</h1>
+      <div class="button">
+        <div class="avatar">{{ username }}</div>
+        <button class="btn btn-danger btn-deconnexion" (click)="logout()">Déconnexion</button>
+      </div>   
+    </header>
+    
+     <div class="container py-5 h-100">
+      <!-- ***************************************************************************
+                                   En tete Ajouter Rechercher Et Trier
+           ****************************************************************************
+      -->
+                 <!-- Bouton Ajouter un Contact-->
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-4">
+      <button type="button" class="btn btn-primary mb-2 mb-md-0" (click)="OuvrirAjouterContact()" data-toggle="modal" data-target="#myModal">Ajouter un contact</button>
+
+         <!--Barre de  Recherche-->
+         <form [formGroup]="searchForm" class="d-flex mb-2 mb-md-0">
+          <input formControlName="searchTerm" class="form-control me-2" type="search" placeholder="Tapez un Prénom" aria-label="Search" (input)="search()">
+          <button class="btn btn-secondary" type="submit">Recherche</button>
+      </form>
+      
+  
+           <!-- Bouton Groupe   -->
+        <div class="select">
+          <form [formGroup]="trie_Groupe">
+            <select name="todos"  class="filter-todo" formControlName="selectedGroup" (change)="changeGroup()">
+              <option value="all">Groupe</option>
+              <option value="amis">Amis</option>
+              <option value="college">Collègues</option>
+              <option value="famille">Famille</option>
+              <option value="copine">Copine</option>
+            </select>
+          </form>   
+         </div>
+   </div>         
+             <!--******************************************************************************
+                 *               Fin En tete                                                  *
+                 ******************************************************************************
+             -->
+
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="table-responsive">
+            <table class="table table-success table-striped table-bordered">
+              <thead>
+                <tr>  
+                  <th scope="col">Nom</th>
+                  <th scope="col">Prenom</th>
+                  <th scope="col">Telephone</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Note</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="contactList">
+                <tr *ngFor="let contact of contactList">
+                  <td>{{contact.nom}}</td>
+                  <td>{{contact.prenom}}</td>
+                  <td>{{contact.number}}</td>
+                  <td>{{contact.email}}</td>
+                  <td>{{contact.note}}</td>
+                  <td>
+                    <div class="d-grid gap-2 d-md-block">
+                      <button type="button" class="btn btn-info" (click)="initModificationForm(contact.id)" data-toggle="modal" data-target="#modifierModal"> <i class="fas fa-pencil-alt"></i></button> &nbsp;
+                      <button class="btn btn-danger" (click)="confirmerSuppression(contact.id)"> <i class="fa fa-trash" aria-hidden="true"></i></button>
+                    </div>
+                  </td>
+                </tr>                    
+              </tbody>
+               <!-- Nouvelle ligne pour afficher le message "Aucun contact trouvé" -->
+            
+            </table>
+            <!-- Message "Aucun contact trouvé" -->
+          <div *ngIf="!contactList || contactList.length === 0" class="text-center no-contacts-message">
+            <span class="no-contacts-message-text">Aucun contact trouvé.</span>
+          </div>
+          </div>
+        </div>    
+     </div> 
+</section>
+
+
+
+</body>
+
+   <!--******************************************************************************
+                 *              Formulaire pour Ajouter un Contact                            *
+                 ******************************************************************************
+             -->
+             <div class="modal lower-z-index" tabindex="-1" aria-labelledby="exampleModalLabel" id="myModal" aria-hidden="true" >
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header custom-modal-header">
+                      <h5 class="modal-title fs-5 custom-modal-title">Ajouter un contact</h5>
+                      <button type="button" class="btn-close custom-btn-close" (click)="fermerAjouterOpenModal()" data-bs-dismiss="modal" aria-label="Close"></button>                       
+                  </div>         
+                      <div class="modal-body">
+                          <form [formGroup]="contactForm">
+                                <!-- Champ Nom-->
+                              <div class="mb-3">
+                                  <label for="nom" class="form-label">Nom</label>
+                                  <input type="text" class="form-control" id="nom"  formControlName="nom">
+                              </div>
+  
+                                 <!-- Champ Prenom-->
+                              <div class="mb-3">
+                                  <label for="prenom" class="form-label">Prénom</label>
+                                  <input type="text" class="form-control" id="prenom"   formControlName="prenom" >
+                              </div>
+  
+                               <!-- Champ Email-->
+                              <div class="mb-3">
+                                  <label for="email" class="form-label">Email</label>
+                                  <input type="email" class="form-control" id="email"   formControlName="email" >
+                              </div>
+  
+                               <!-- Champ Telephone-->
+                              <div class="mb-3">
+                                  <label for="Telephone" class="form-label">Téléphone</label>
+                                  <input type="texte" class="form-control" id="Telephone"   formControlName="number" >
+                              </div>
+  
+                               <!-- Champ Note-->
+                              <div class="mb-3">
+                                  <label for="note" class="form-label">Note</label>
+                                  <textarea type="texte" class="form-control" id="note"  formControlName="note"></textarea>
+                              </div>
+  
+                               <!-- Champ Groupe-->
+                              <div class="mb-3">
+                                    <label for="category" class="form-label">Groupe</label>
+                                    <select class="form-select border border-solid" id="category" formControlName="category" style="width: 100%">  
+                                        <option value="amis">Amis</option>
+                                        <option value="college">College</option>
+                                        <option value="famille">Famille </option>
+                                        <option value="copine">Copine </option>    
+                                    </select>                       
+                              </div>
+                  
+                               <!--Les boutons Ajouter et Fermer-->
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" (click)="fermerAjouterOpenModal()" data-bs-dismiss="modal">Fermer</button>
+                          <button  class="btn btn-primary" type="submit" (click)="onSubmitForm()" [disabled]="!contactForm.valid"  >Ajouter</button>
+                      </div>
+                    </form>
+                  </div>
+                  </div>
+              </div>
+          </div>
+          
+                   <!--******************************************************************************
+                       *                   Fin Formulaire                                           *
+                       ******************************************************************************
+                     -->
+
+                     
+                <!-- Formulaire du modal Modifier -->
+
+                <div class="modal" tabindex="-1" aria-labelledby="exampleModalLabel" id="modifierModal" aria-hidden="true">
+                  <div class="modal-dialog">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title fs-5" id="exampleModalLabel">Mofifier un contact</h5>
+                              <button type="button" class="btn-close" (click)="fermerModifierOpenModal()" data-bs-dismiss="modal"
+                                  aria-label="Close"></button>
+                                
+                          </div>
+                          <div class="modal-body">
+                              <form  *ngIf="contactDetails" [formGroup]="contactDetails" >
+                            <div For="let details">
+                                <div class="mb-3">
+                                      <label for="nom" class="form-label">Nom</label>
+                                      <input type="text" class="form-control" id="nom"  formControlName="nom">
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="prenom" class="form-label">Prénom</label>
+                                      <input type="text" class="form-control" id="prenom"  formControlName="prenom" >
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="email" class="form-label">Email</label>
+                                      <input type="email" class="form-control" id="email" formControlName="email" >
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="number" class="form-label">Téléphone</label>
+                                      <input type="tel" class="form-control" id="number"  formControlName="number">
+                                  </div>
+                                  <div class="mb-3">
+                                      <label for="note" class="form-label">Note</label>
+                                      <textarea type="texte" class="form-control" id="note" placeholder="Saisir une Note"  formControlName="note" ></textarea>
+                                  </div>
+
+                                  <div class="mb-3">
+                                    <label for="categorie" class="form-label">Groupe</label>
+                                    <input type="text" class="form-control" id="categorie"  formControlName="category">
+                                  </div>  
+                                </div>    
+                              </form>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" (click)="fermerModifierOpenModal()" data-bs-dismiss="modal">Annuler</button>
+                              <button type="button" class="btn btn-primary" (click)="onUpdate()">Modifier</button>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+                <!---Fin de Formulaire pour modifier-------------->
+
+
+                
+
+          
